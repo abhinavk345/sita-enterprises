@@ -1,13 +1,95 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Slide Up Animation */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Fade In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Utility Classes */
+.animate-slideUp {
+  animation: slideUp 1s ease-out;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1.2s ease-in;
+}
+
+/* ===== Pulsating Effect ===== */
+@keyframes pulseGlow {
+  0% {
+    transform: scale(1);
+    text-shadow: 0 0 5px rgba(255, 255, 0, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    text-shadow: 0 0 20px rgba(255, 255, 0, 0.8);
+  }
+  100% {
+    transform: scale(1);
+    text-shadow: 0 0 5px rgba(255, 255, 0, 0.4);
+  }
+}
+
+.brand-text {
+  animation: pulseGlow 3s infinite ease-in-out;
+  transition: all 0.4s ease;
+}
+
+/* ===== Hover Effect ===== */
+.brand-text:hover {
+  transform: scale(1.12);
+  color: #ffd700;
+  letter-spacing: 3px;
+  text-shadow: 0 0 25px rgba(255, 215, 0, 1);
+}
+
+/* ===== Nav Link Hover Animation ===== */
+.nav-link {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #ffd700;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  left: 0;
+  bottom: -4px;
+  background-color: #ffd700;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.footer-note {
+  font-size: 11px;       /* smaller text */
+  color: #6b7280;        /* subtle gray */
+  text-align: center;    /* center align */
+  padding: 6px 0;        /* small padding */
 }
