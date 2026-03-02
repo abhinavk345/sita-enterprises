@@ -1,25 +1,41 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 function Notifications() {
-  const [orders, setOrders] = useState([]);
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
+  const email = localStorage.getItem("loggedInUser");
+  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    const email = localStorage.getItem("loggedInUser");
+    if (isLoggedIn && email) {
+      fetch(`http://localhost:8080/api/notifications?email=${email}`)
+        .then(res => res.json())
+        .then(data => setNotifications(data))
+        .catch(() => setNotifications([]));
+    }
+  }, [isLoggedIn, email]);
 
-    axios.get(`http://localhost:8080/api/order/user?email=${email}`)
-      .then(res => setOrders(res.data));
-  }, []);
+  if (!isLoggedIn) {
+    return (
+      <div className="p-6 text-center">
+        <h2 className="text-xl font-semibold">No Notifications</h2>
+        <p className="text-gray-500 mt-2">
+          Please login to see your notifications.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Notifications</h2>
-
-      {orders.map(order => (
-        <div key={order.id} className="bg-white p-4 shadow rounded mb-3">
-          Order #{order.id} - {order.status}
-        </div>
-      ))}
+      {notifications.length === 0 ? (
+        <p>No notifications yet.</p>
+      ) : (
+        notifications.map((n, i) => (
+          <div key={i} className="p-3 bg-white shadow rounded mb-2">
+            {n.message}
+          </div>
+        ))
+      )}
     </div>
   );
 }

@@ -10,9 +10,16 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import ProductCard from "../components/ProductCard";
 import Cart from "../pages/Cart";
+import TractorForm from "../components/TractorForm";
+import EnquiryForm from "./EnquiryForm";
+import ProductSelector from "./ProductSelector";
+import BigModal from "../components/common/BigModal";
 
 function Home() {
+const [modalType, setModalType] = useState(null);
 
+  const openModal = (type) => setModalType(type);
+  const closeModal = () => setModalType(null);
   /* ================= CART STATE ================= */
   const [cartItems, setCartItems] = useState([]);
 
@@ -87,7 +94,7 @@ function Home() {
               <img
                 src={img}
                 alt="Slide"
-                className="h-[500px] w-full object-cover"
+                className="h-[250px] sm:h-[350px] md:h-[450px] lg:h-[500px] w-full object-cover"
               />
 
               <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40 flex flex-col items-center justify-center text-center text-white px-4">
@@ -119,7 +126,7 @@ function Home() {
           Featured Products
         </h2>
 
-        <div className="flex gap-8">
+        <div className="flex flex-col lg:flex-row gap-8">
 
           {/* PRODUCTS GRID */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-8 flex-1">
@@ -140,7 +147,7 @@ function Home() {
         </div>
       </div>
 
-      {/* ================= WHY CHOOSE US ================= */}
+{/* ================= WHY CHOOSE US ================= */}
       <div className="bg-green-800 text-white p-14 text-center">
         <h2 className="text-3xl font-bold mb-10">
           Why Choose Maa Sita Enterprises?
@@ -168,6 +175,38 @@ function Home() {
             </p>
           </div>
         </div>
+      </div>
+
+      {/* ================= WHY CHOOSE US ================= */}
+      <div className="bg-yellow-800 text-white p-14 text-center">
+        <h2 className="text-3xl font-bold mb-10">
+         Our Services
+        </h2>
+
+  
+
+                  <div className="grid md:grid-cols-3 gap-8">
+            <div className="enquiry-btn" onClick={() => openModal("tractor")}>
+              <h3 className="font-bold text-xl">✔ Book Tractor Online</h3>
+              <p className="mt-2">Book tractor with affordable price</p>
+            </div>
+
+            <div className="enquiry-btn" onClick={() => openModal("products")}>
+              <h3 className="font-bold text-xl">✔ Our All Products</h3>
+              <p className="mt-2">Choose branded and original materials</p>
+            </div>
+
+            <div className="enquiry-btn" onClick={() => openModal("enquiry")}>
+              <h3 className="font-bold text-xl">✔ Enquiry Here</h3>
+              <p className="mt-2">Your problem our solutions.</p>
+            </div>
+</div>
+ {/* Modal Section */}
+      <BigModal isOpen={modalType !== null} onClose={closeModal}>
+        {modalType === "tractor" && <TractorForm />}
+        {modalType === "products" && <ProductSelector />}
+        {modalType === "enquiry" && <EnquiryForm/>}
+      </BigModal>
       </div>
 
       {/* ================= FOOTER ================= */}

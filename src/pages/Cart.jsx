@@ -34,7 +34,7 @@ function Cart({ cartItems, setCartItems }) {
   );
 
   return (
-    <div className="w-80 bg-white shadow-lg p-4 rounded-xl">
+    <div className="w-full lg:w-80 bg-white shadow-lg p-4 rounded-xl">
       <h2 className="text-xl font-bold mb-4">🛒 Cart</h2>
 
       {cartItems.length === 0 ? (
