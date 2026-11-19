@@ -17,7 +17,7 @@ import BigModal from "../components/common/BigModal";
 
 function Home() {
 const [modalType, setModalType] = useState(null);
-
+const role = localStorage.getItem("role");
   const openModal = (type) => setModalType(type);
   const closeModal = () => setModalType(null);
   /* ================= CART STATE ================= */
@@ -131,10 +131,12 @@ const [modalType, setModalType] = useState(null);
           {/* PRODUCTS GRID */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-8 flex-1">
             {featuredProducts.map((product) => (
-              <ProductCard
+              
+               <ProductCard
                 key={product.id}
                 product={product}
                 addToCart={addToCart}
+                role={role}
               />
             ))}
           </div>

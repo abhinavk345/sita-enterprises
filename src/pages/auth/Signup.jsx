@@ -8,6 +8,7 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [contact, setContact] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("USER");
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
@@ -24,6 +25,7 @@ function Signup() {
       const requestBody = {
         name,
         password,
+        role,
         ...(email && { email }),
         ...(contact && { contact }),
       };
@@ -86,6 +88,28 @@ function Signup() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+
+        <div className="flex gap-6 mt-3">
+  <label>
+    <input
+      type="radio"
+      value="USER"
+      checked={role === "USER"}
+      onChange={(e) => setRole(e.target.value)}
+    />
+    User
+  </label>
+
+  <label>
+    <input
+      type="radio"
+      value="ADMIN"
+      checked={role === "ADMIN"}
+      onChange={(e) => setRole(e.target.value)}
+    />
+    Admin
+  </label>
+</div>
 
         <button className="w-full bg-green-600 text-white py-3 rounded hover:bg-green-800 transition">
           Signup

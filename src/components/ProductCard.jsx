@@ -1,4 +1,4 @@
-function ProductCard({ product, addToCart }) {
+function ProductCard({ product, addToCart, role }) {
   return (
     <div className="bg-white rounded-xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 p-4 text-center">
 
@@ -30,20 +30,31 @@ function ProductCard({ product, addToCart }) {
         {product.available ? "In Stock" : "Out of Stock"}
       </p>
 
-      {/* Add To Cart Button */}
-      <button
-        onClick={() => addToCart(product)}
-        disabled={!product.available}
-        className={`mt-4 px-4 py-2 rounded-lg w-full transition duration-300
-          ${
-            product.available
-              ? "bg-green-700 hover:bg-green-800 text-white"
-              : "bg-gray-400 text-white cursor-not-allowed"
-          }`}
-      >
-        {product.available ? "Add to Cart" : "Not Available"}
-      </button>
+      {/* ✅ USER → Add To Cart */}
+      {role === "USER" && (
+        <button
+          onClick={() => addToCart(product)}
+          disabled={!product.available}
+          className={`mt-4 px-4 py-2 rounded-lg w-full transition duration-300
+            ${
+              product.available
+                ? "bg-green-700 hover:bg-green-800 text-white"
+                : "bg-gray-400 text-white cursor-not-allowed"
+            }`}
+        >
+          {product.available ? "Add to Cart" : "Not Available"}
+        </button>
+      )}
 
+      {/* ✅ ADMIN → Update Button */}
+      {role === "ADMIN" && (
+        <button
+          className="mt-4 px-4 py-2 rounded-lg w-full bg-yellow-500 hover:bg-yellow-600 text-white transition duration-300"
+          onClick={() => alert(`Update product: ${product.name}`)}
+        >
+          Update Product
+        </button>
+      )}
     </div>
   );
 }

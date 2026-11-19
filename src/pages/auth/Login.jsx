@@ -14,6 +14,7 @@ function Login() {
 
   const navigate = useNavigate();
 
+  // ================= SEND OTP =================
   const handleSendOtp = async () => {
     if (!email || !password) {
       toast.error("Email & Password required ❌");
@@ -39,6 +40,7 @@ function Login() {
     }
   };
 
+  // ================= VERIFY OTP =================
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
 
@@ -50,16 +52,28 @@ function Login() {
     try {
       setVerifyingOtp(true);
 
-      await axios.post(
+      const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/auth/verify-otp`,
         { email, otp }
       );
 
+      // ✅ Save login info
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("loggedInUser", email);
 
+      // assuming backend returns role + token
+      localStorage.setItem("role", response.data.role);
+      localStorage.setItem("token", response.data.token);
+
       toast.success("Login Successful ✅");
-      navigate("/");
+
+      // redirect based on role
+      if (response.data.role === "ADMIN") {
+        navigate("/dashboard");
+      } else {
+        navigate("/");
+      }
+
     } catch (error) {
       toast.error(error.response?.data?.message || "Invalid OTP ❌");
     } finally {
@@ -95,7 +109,7 @@ function Login() {
           required
         />
 
-        {/* 🔘 OTP TYPE RADIO */}
+        {/* OTP TYPE RADIO */}
         <div className="mb-4">
           <label className="mr-4">
             <input
